@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BaseView, ItemDetailView, AddSaleView
+from .views import BaseView, ItemDetailView, AddSaleView, SaleInfo
 
 app_name = 'mainapp'
 urlpatterns = [
