@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .models import Item, Employee, Sale
+from .models import Item, Employee, Sale, Price
 from django.views.generic import DetailView, ListView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -14,7 +14,16 @@ class BaseView(View):
             'items_list' : items_list
         }
         return render(request, 'base.html', context)
-    
+
+class PriceView(View):
+
+    def get(self, request, *args, **kwargs):
+        price_change = Price.objects.all()
+        context = {
+            'price_change' : price_change
+        }
+        return render(request, 'price.html', context)
+
 class SaleInfo(LoginRequiredMixin, ListView):
 
     model = Sale
@@ -22,6 +31,7 @@ class SaleInfo(LoginRequiredMixin, ListView):
     context_object_name = 'sales_list'
     paginate_by = 5
     queryset = Sale.objects.all().order_by('-purchase_date')
+
 
 class ItemDetailView(DetailView):
 
