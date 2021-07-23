@@ -21,7 +21,7 @@ class SaleInfo(LoginRequiredMixin, ListView):
     template_name = 'sale.html'
     context_object_name = 'sales_list'
     paginate_by = 5
-    queryset = Sale.objects.all()
+    queryset = Sale.objects.all().order_by('-purchase_date')
 
 class ItemDetailView(DetailView):
 
