@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Item(models.Model):
     item_name = models.CharField('название товара', max_length = 200)
@@ -30,5 +32,16 @@ class Sale(models.Model):
         super().save(*args, **kwargs)
 
 
-# class Price(models.Model):
-#     pass
+@receiver (post_save, sender = Item)
+def price_change(sender, instance, created, update_fields=["item_price"], **kwargs):
+        price = Price.objects.create(
+            price_item = instance, new_price = instance.item_price
+        )
+
+class Price(models.Model):
+    price_item = models.ForeignKey(Item, on_delete = models.CASCADE)
+    new_price = models.IntegerField('новая цена')
+    price_change_time = models.DateTimeField('время изменения цены', auto_now=True)
+
+    def __str__(self):
+        return "Новая цена {} для {}".format(self.new_price, self.price_item.item_name)
