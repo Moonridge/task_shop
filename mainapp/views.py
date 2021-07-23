@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import Item, Employee, Sale
-from django.views.generic import DetailView, View
+from django.views.generic import DetailView, ListView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 
 
 class BaseView(View):
@@ -12,7 +14,14 @@ class BaseView(View):
             'items_list' : items_list
         }
         return render(request, 'base.html', context)
+    
+class SaleInfo(LoginRequiredMixin, ListView):
 
+    model = Sale
+    template_name = 'sale.html'
+    context_object_name = 'sales_list'
+    paginate_by = 5
+    queryset = Sale.objects.all()
 
 class ItemDetailView(DetailView):
 
