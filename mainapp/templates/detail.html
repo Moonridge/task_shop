@@ -15,6 +15,9 @@
                     <div class="fs-5 mb-5">
                           <!-- <span class="text-decoration-line-through">$45.00</span> -->
                         <span>${{item.item_price}}</span>
+                        {% if user.is_authenticated %}
+                        <span><a href="{% url 'mainapp:price' item.slug %}">Динамика изменения цены</a></span>
+                        {% endif %}
                     </div>
                      <p class="lead">{{item.item_description}}</p>
                     <form action = "{% url 'mainapp:add_sale' slug=item.slug %}" method = "POST">
