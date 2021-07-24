@@ -35,7 +35,7 @@ class Sale(models.Model):
 @receiver (post_save, sender = Item)
 def price_change(sender, instance, created, update_fields=["item_price"], **kwargs):
         price = Price.objects.create(
-            price_item = instance, new_price = instance.item_price
+            price_item = instance, new_price = instance.item_price,
         )
 
 class Price(models.Model):

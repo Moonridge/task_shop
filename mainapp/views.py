@@ -15,12 +15,16 @@ class BaseView(View):
         }
         return render(request, 'base.html', context)
 
-class PriceView(View):
+class PriceView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        price_change = Price.objects.all()
+        item_slug = kwargs.get('slug')
+        price_list = Price.objects.order_by('-price_change_time')
+        price_name = Item.objects.get(slug = item_slug)
         context = {
-            'price_change' : price_change
+            'price_list' : price_list,
+            'item_slug' : item_slug,
+            'price_name' : price_name,
         }
         return render(request, 'price.html', context)
 

@@ -16,7 +16,7 @@
                           <!-- <span class="text-decoration-line-through">$45.00</span> -->
                         <span>${{item.item_price}}</span>
                         {% if user.is_authenticated %}
-                        <span><a href="{% url 'mainapp:price' item.slug %}">Динамика изменения цены</a></span>
+                        <span><a class = "btn btn-outline-dark mt-auto" href="{% url 'mainapp:price' item.slug %}">Динамика изменения цены</a></span>
                         {% endif %}
                     </div>
                      <p class="lead">{{item.item_description}}</p>

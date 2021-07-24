@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Цена для {{price_name}}{% endblock %}
+
+
+{% block content %}
+<div class="text-center">
+    <h2>Изменения цены товара: {{price_name}}</h2>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Новая цена</th>
+        </tr>
+    </thead>
+    {% for a in price_list %}
+    {% if a.price_item.slug == item_slug %}
+        <tbody>
+            <tr>
+                <td>{{a.price_change_time}}</td>
+                <td>{{a.new_price}}$</td>
+            </tr>
+    {% endif %}
+    {% endfor %}
+        </tbody>
+        </table>
+<a class="nav-link active" href="{% url 'mainapp:detail' item_slug %}">Назад к товару</a>
+{% endblock %}
