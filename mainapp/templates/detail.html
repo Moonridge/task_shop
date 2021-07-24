@@ -39,11 +39,11 @@
                         </div> -->
                         <div class="input-group mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Введите продавца</span>
-                                <input type="text" class="form-control" name = "employee" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <input type="text" class="form-control" name = "employee" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
                         </div>
                         <div class="input-group mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Введите количество</span>
-                                <input type="number" value = {{sale.sale_quantity}} class="form-control" name = "qty" min ="1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <input type="number" value = {{sale.sale_quantity}} class="form-control" name = "qty" min ="1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
                         </div>
                         <input type="submit" class = "btn btn-primary" value = "Оплатить">
                     </form>
