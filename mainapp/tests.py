@@ -21,6 +21,10 @@ class ShopTestCases(TestCase):
         response = client.get('')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.item.item_name)
+        
+    def test_detail_response(self):
+        response = client.get('/items/testslug/')
+        self.assertEqual(response.status_code, 200)
 
     def test_sale_form_post(self):
         response = client.post('/add_sale/testslug/', {
