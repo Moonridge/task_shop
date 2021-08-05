@@ -5,7 +5,7 @@ from django.dispatch import receiver
 class Item(models.Model):
     item_name = models.CharField('название товара', max_length = 200)
     item_description = models.TextField('описание товара')
-    item_price = models.IntegerField('цена товара')
+    item_price = models.DecimalField('цена товара', max_digits = 9, decimal_places = 2)
     slug = models.SlugField(unique = True)
 
     def __str__(self):
@@ -21,7 +21,7 @@ class Sale(models.Model):
     sale_item = models.ForeignKey(Item, on_delete = models.DO_NOTHING)
     sale_employee = models.ForeignKey(Employee, on_delete = models.DO_NOTHING)
     sale_quantity = models.IntegerField('количество товара', default = 1)
-    total_price = models.IntegerField('окончательная цена товара', default = 1)
+    total_price = models.DecimalField('окончательная цена товара', default = 0, max_digits = 9, decimal_places = 2)
     purchase_date = models.DateTimeField('дата покупки', auto_now=True)
 
     def __str__(self):
@@ -40,7 +40,7 @@ def price_change(sender, instance, created, update_fields=["item_price"], **kwar
 
 class Price(models.Model):
     price_item = models.ForeignKey(Item, on_delete = models.CASCADE)
-    new_price = models.IntegerField('новая цена')
+    new_price = models.DecimalField('новая цена', max_digits = 9, decimal_places = 2)
     price_change_time = models.DateTimeField('время изменения цены', auto_now=True)
 
     def __str__(self):
