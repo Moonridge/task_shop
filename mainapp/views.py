@@ -4,16 +4,22 @@ from .models import Item, Employee, Sale, Price
 from django.views.generic import DetailView, ListView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from annoying.decorators import render_to
 
 
-class BaseView(View):
+# class BaseView(View):
+#
+#     def get(self, request, *args, **kwargs):
+#         items_list = Item.objects.order_by('item_name')
+#         context = {
+#             'items_list' : items_list
+#         }
+#         return render(request, 'base.html', context)
 
-    def get(self, request, *args, **kwargs):
-        items_list = Item.objects.order_by('item_name')
-        context = {
-            'items_list' : items_list
-        }
-        return render(request, 'base.html', context)
+@render_to('base.html')
+def index(request):
+    items_list = Item.objects.order_by('item_name')
+    return {'items_list' : items_list}
 
 class PriceView(LoginRequiredMixin, View):
 
@@ -51,7 +57,7 @@ class ItemDetailView(DetailView):
         context['sale'] = Sale.objects.all()
         return context
 
-class AddSaleView(View):
+class AddSaleView(View): #CreateView FromView
     def post(self, request, *args, **kwargs):
         item_slug = kwargs.get('slug')
         qty = int(request.POST.get('qty'))
