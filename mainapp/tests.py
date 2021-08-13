@@ -6,16 +6,20 @@ from .models import Item, Employee, Sale, Price
 
 class ShopTestCases(TestCase):
 
+    fixtures = ['initial_data.json', 'models.json']
+
     def setUp(self) -> None:
         self.user = User.objects.create_user(username = "testuser", password = "password")
-        self.item = Item.objects.create(
-            item_name = "test name",
-            item_description = "test description",
-            item_price = 10,
-            slug = "testslug",
-        )
-        self.employee = Employee.objects.create(employee_name = "test name")
-
+        self.item = Item.objects.get(pk = 1)
+        self.employee = Employee.objects.get(pk = 1)
+        # self.item = Item.objects.create(
+        #     item_name = "test name",
+        #     item_description = "test description",
+        #     item_price = 10,
+        #     slug = "testslug",
+        # )
+        # self.employee = Employee.objects.create(employee_name = "test name")
+        
     def test_response_from_start_page(self):
         response = self.client.get('')
         self.assertEqual(response.status_code, 200)
