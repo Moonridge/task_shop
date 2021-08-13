@@ -1,0 +1,19 @@
+[
+  {
+    "model": "mainapp.item",
+    "pk": 1,
+    "fields": {
+      "item_name": "test name",
+      "item_description": "test description",
+      "item_price": 10,
+      "slug": "testslug"
+    }
+  },
+  {
+    "model": "mainapp.employee",
+    "pk": 1,
+    "fields": {
+      "employee_name": "test name"
+    }
+  }
+]
