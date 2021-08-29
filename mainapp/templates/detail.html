@@ -19,14 +19,19 @@
                         {% endif %}
                     </div>
                      <p class="lead">{{item.item_description}}</p>
-                     
+
                     <form method="post">
                         {% csrf_token %}
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">Костыль</span>
                             {{ form.sale_item }}
-                        </div>
+                        </div> -->
+
+                        <!-- как бы тоже костыль но получше первого -->
+                        <select name={{form.sale_item.html_name}} class="form-control" required_id={{form.sale_item.auto_id}} hidden="true">
+                                <option value="{{ item.id }}" selected>{{ item.item_name }}</option>
+                        </select>
 
                         <div class="form-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">Выберите продавца</span>
