@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from annoying.decorators import render_to
 from .forms import SaleForm
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 
 # class BaseView(View):
@@ -45,52 +46,53 @@ class SaleInfo(LoginRequiredMixin, ListView):
     paginate_by = 5
     queryset = Sale.objects.all().order_by('-purchase_date')
 
-
-class ItemDetailView(FormMixin, DetailView):
-
-    queryset = Item.objects.all()
-    model = Item
-    context_object_name = 'item'
+class ItemDetailView(CreateView):
+    model = Sale
     template_name = 'detail.html'
-    slug_url_kwarg = 'slug'
     form_class = SaleForm
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['employee_list'] = Employee.objects.all()
-        context['sale'] = Sale.objects.all()
-        context['form'] = SaleForm(initial={
-            'sale': self.object
-        })
+        obj = get_object_or_404(Item, slug=self.kwargs['slug'])
+        context['object'] = context['item'] = obj
         return context
 
-    def get_success_url(self):
-        return reverse('mainapp:index')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
     def form_valid(self, form):
-        form.save()
-        return super(ItemDetailView, self).form_valid(form)
+        form.instance.sale_item = get_object_or_404(Item, slug=self.kwargs['slug'])
+        return super().form_valid(form)
 
-# class AddSaleView(View): #CreateView FromView
+
+# class ItemDetailView(FormMixin, DetailView):
+#
+#     queryset = Item.objects.all()
+#     model = Item
+#     context_object_name = 'item'
+#     template_name = 'detail.html'
+#     slug_url_kwarg = 'slug'
+#     form_class = SaleForm
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['employee_list'] = Employee.objects.all()
+#         context['sale'] = Sale.objects.all()
+#         context['form'] = SaleForm(initial={
+#             'sale': self.object
+#         })
+#         return context
+#
+#     def get_success_url(self):
+#         return reverse('mainapp:index')
+#
 #     def post(self, request, *args, **kwargs):
-#         item_slug = kwargs.get('slug')
-#         qty = int(request.POST.get('qty'))
-#         em_name = request.POST.get('employee')
-#         item = Item.objects.get(slug=item_slug)
-#         employee = Employee.objects.get(employee_name=em_name)
-#         sale = Sale.objects.create(
-#             sale_item = item, sale_employee = employee, sale_quantity = qty
-#         )
-#         return HttpResponseRedirect('/')
-
-# class AddSaleView(CreateView):
-#     pass
+#         self.object = self.get_object()
+#         form = self.get_form()
+#
+#         if form.is_valid():
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+#
+#     def form_valid(self, form):
+#         form.save()
+#         return super(ItemDetailView, self).form_valid(form)
